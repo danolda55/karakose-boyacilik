@@ -275,7 +275,13 @@ def head(meta, url):
     gtm_js = "" if meta.get("noGtm") else f"""<script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}})(window,document,'script','dataLayer','{gtm}');</script>"""
     preload = f'<link rel="preload" as="image" href="/img/{meta["preload"]}.webp?v={VERSION}" imagesrcset="/img/{meta["preload"]}-800.webp?v={VERSION} 800w, /img/{meta["preload"]}.webp?v={VERSION} 1600w" imagesizes="(max-width: 900px) 100vw, 50vw">' if meta.get("preload") else ""
     schema = "" if meta.get("noSchema") else f'<script type="application/ld+json">{page_schema(meta, url)}</script>'
-    js_cfg = json.dumps({k: CFG[k] for k in ("phoneIntl", "prices", "reviewUrl", "reviewMessage")}, ensure_ascii=False)
+    cfg_keys = ("phoneIntl", "prices", "reviewUrl", "reviewMessage") if meta.get("app") else ("phoneIntl", "prices")
+    js_cfg = {k: CFG[k] for k in cfg_keys}
+    if meta.get("app"):
+        js_cfg["reviewUrl"] = CFG.get("appReviewUrl") or CFG["reviewUrl"]
+    js_cfg = json.dumps(js_cfg, ensure_ascii=False)
+    manifest = CFG["appPath"] + "manifest.webmanifest" if meta.get("app") else "/manifest.webmanifest"
+    app_meta = '<meta name="apple-mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-title" content="Yorum İste">\n<meta name="mobile-web-app-capable" content="yes">' if meta.get("app") else ""
     return f'''<!DOCTYPE html>
 <html lang="tr" class="no-js">
 <head>
@@ -302,7 +308,8 @@ def head(meta, url):
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/assets/icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-<link rel="manifest" href="/manifest.webmanifest">
+<link rel="manifest" href="{manifest}">
+{app_meta}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap">
@@ -318,6 +325,9 @@ def render(page_file):
     raw = page_file.read_text(encoding="utf-8")
     m = re.match(r"\s*<!--\s*(\{.*?\})\s*-->\s*", raw, re.S)
     meta = json.loads(m.group(1))
+    if meta.get("app"):
+        meta["path"] = CFG["appPath"]
+        meta["file"] = CFG["appPath"].strip("/") + "/index.html"
     body = raw[m.end():]
     body = re.sub(r"\{\{\s*block:(\w+)\s*\}\}", lambda x: BLOCKS[x.group(1)](), body)
     body = re.sub(r"\{\{\s*icon:(\w+)\s*\}\}", lambda x: ICONS[x.group(1)], body)
@@ -332,6 +342,8 @@ def render(page_file):
     scripts = '<script src="/assets/js/site.js?v=' + VERSION + '" defer></script>'
     for extra in meta.get("scripts", []):
         scripts += f'\n<script src="{extra}?v={VERSION}" defer></script>'
+    if meta.get("app"):
+        scripts += f'\n<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("{CFG["appPath"]}sw.js",{{scope:"{CFG["appPath"]}"}});</script>'
     chrome = not meta.get("bare")
     doc = head(meta, url) + "\n<body>\n" + gtm_ns + "\n"
     if chrome:
@@ -354,9 +366,19 @@ def build():
     for pf in sorted((ROOT / "pages").glob("*.html")):
         meta, doc = render(pf)
         out = DIST / meta["file"]
+        out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(doc, encoding="utf-8")
         if meta.get("sitemap", True):
             sitemap.append((BASE + meta["path"], meta.get("priority", "0.7")))
+    app_dir = DIST / CFG["appPath"].strip("/")
+    (app_dir / "manifest.webmanifest").write_text(json.dumps({
+        "name": "Yorum İste – Karaköse", "short_name": "Yorum İste", "id": CFG["appPath"],
+        "start_url": CFG["appPath"], "scope": CFG["appPath"], "display": "standalone",
+        "background_color": "#f8f5ef", "theme_color": "#1f4d47", "lang": "tr",
+        "icons": [{"src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+                  {"src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}]},
+        ensure_ascii=False, indent=2), encoding="utf-8")
+    (app_dir / "sw.js").write_text("const C='yorum-" + VERSION + "';self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(C).then(c=>c.addAll(['./'])))});self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(r=>{const cp=r.clone();caches.open(C).then(c=>c.put(e.request,cp));return r}).catch(()=>caches.match(e.request)))});\n", encoding="utf-8")
     sitemap.sort(key=lambda x: -float(x[1]))
     xml = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for loc, pr in sitemap:

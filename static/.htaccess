@@ -59,3 +59,11 @@ Header always set Referrer-Policy "strict-origin-when-cross-origin"
 
 AddType application/manifest+json .webmanifest
 AddType image/webp .webp
+
+# Gizli usta uygulaması: arama motorlarına kapalı
+<IfModule mod_headers.c>
+  <If "%{REQUEST_URI} =~ m#^/usta-#">
+    Header set X-Robots-Tag "noindex, nofollow"
+    Header set Cache-Control "no-cache"
+  </If>
+</IfModule>
