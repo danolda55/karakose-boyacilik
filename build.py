@@ -96,7 +96,7 @@ def wa_href(text="Merhaba Birol Usta, boya badana için fiyat almak istiyorum.")
 def img(name, alt, sizes="(max-width: 760px) 100vw, 50vw", eager=False, cls="", lazy=True):
     attrs = 'fetchpriority="high"' if eager else ('loading="lazy" decoding="async"' if lazy else 'decoding="async"')
     c = f' class="{cls}"' if cls else ""
-    return (f'<img{c} src="/img/{name}.webp" srcset="/img/{name}-800.webp 800w, /img/{name}.webp 1600w" '
+    return (f'<img{c} src="/img/{name}.webp?v={VERSION}" srcset="/img/{name}-800.webp?v={VERSION} 800w, /img/{name}.webp?v={VERSION} 1600w" '
             f'sizes="{sizes}" width="1600" height="893" alt="{esc(alt)}" {attrs}>')
 
 
@@ -273,7 +273,7 @@ def head(meta, url):
     og_img = BASE + "/img/og.jpg"
     gtm = CFG["gtmId"]
     gtm_js = "" if meta.get("noGtm") else f"""<script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}})(window,document,'script','dataLayer','{gtm}');</script>"""
-    preload = f'<link rel="preload" as="image" href="/img/{meta["preload"]}.webp" imagesrcset="/img/{meta["preload"]}-800.webp 800w, /img/{meta["preload"]}.webp 1600w" imagesizes="(max-width: 900px) 100vw, 50vw">' if meta.get("preload") else ""
+    preload = f'<link rel="preload" as="image" href="/img/{meta["preload"]}.webp?v={VERSION}" imagesrcset="/img/{meta["preload"]}-800.webp?v={VERSION} 800w, /img/{meta["preload"]}.webp?v={VERSION} 1600w" imagesizes="(max-width: 900px) 100vw, 50vw">' if meta.get("preload") else ""
     schema = "" if meta.get("noSchema") else f'<script type="application/ld+json">{page_schema(meta, url)}</script>'
     js_cfg = json.dumps({k: CFG[k] for k in ("phoneIntl", "prices", "reviewUrl", "reviewMessage")}, ensure_ascii=False)
     return f'''<!DOCTYPE html>
@@ -348,7 +348,7 @@ def build():
     if DIST.exists():
         shutil.rmtree(DIST)
     shutil.copytree(ROOT / "static", DIST)
-    VERSION = hashlib.md5(b"".join(p.read_bytes() for p in sorted((ROOT / "static/assets").rglob("*.*")))).hexdigest()[:8]
+    VERSION = hashlib.md5(b"".join(p.read_bytes() for p in sorted((ROOT / "static/assets").rglob("*.*")) + [p.read_bytes() for p in sorted((ROOT / "static/img").glob("*.*"))])).hexdigest()[:8]
     sitemap = []
     for pf in sorted((ROOT / "pages").glob("*.html")):
         meta, doc = render(pf)
