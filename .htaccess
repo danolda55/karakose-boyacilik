@@ -18,3 +18,8 @@ RewriteCond %{REQUEST_URI} !\..+$
 RewriteCond %{REQUEST_URI} !/$ 
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*)$ /$1/ [R=301,L]
+
+# GitHub yükleme durum dosyasını gizle
+<Files ".ftp-deploy-sync-state.json">
+    Require all denied
+</Files>
