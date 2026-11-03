@@ -50,13 +50,13 @@ NAV = [
 SERVICES = [
     {"url": "/esyali-ev-boyama/", "img": "esyali", "title": "Eşyalı Ev Boyama",
      "text": "Mobilyalar ortada toplanır, naylonla sarılır; prizler ve süpürgelikler bantlanır. Eviniz boya lekesiz teslim edilir.",
-     "alt": "Atakum'da eşyalı ev boyama: mobilyalar naylonla korunmuş, kenarlar bantlanmış oda"},
+     "alt": "Atakum'da eşyalı ev boyama: yatak ve dolap naylonla korunmuş, süpürgelikler bantlanmış"},
     {"url": "/daire-boyama/", "img": "bos-daire", "title": "Daire Boyama",
      "text": "1+1'den 4+1'e boş daire, kiralık ev ve taşınma öncesi boyama. Çoğu daire 1–2 günde biter.",
-     "alt": "Samsun Atakum'da boyanmış boş daire, mavi vurgu duvarlı yatak odası"},
+     "alt": "Atakum'da kırık beyaza boyanmış boş daire odası"},
     {"url": "/ofis-boyama/", "img": "ofis", "title": "Ofis ve İş Yeri",
      "text": "Ofis, klinik, mağaza ve apartman merdiven boşlukları. İşinizi en az aksatacak şekilde planlıyoruz.",
-     "alt": "Samsun'da boyanmış ofis resepsiyonu, yeşil vurgu duvarı"},
+     "alt": "Atakum'da gri ve yeşil boyanmış ofis, yeşil vurgu duvarı"},
     {"url": "/hizmetlerimiz/#renk-danismanligi", "img": "renk", "title": "Renk Danışmanlığı",
      "text": "Keşifte karteladan evinizin ışığına ve mobilyanıza uyan tonları birlikte seçiyoruz.",
      "alt": "Renk kartelası ile duvar rengi seçimi"},
@@ -72,7 +72,7 @@ FAQ = [
     ("Fiyatlara boya malzemesi dahil mi?",
      "Tercihinize göre. Çoğunlukla malzeme dahil, anahtar teslim fiyat veriyoruz. Dilerseniz boyayı siz alırsınız, biz yalnızca işçilik ücreti alırız. Sitedeki hesaplama aracı yalnızca işçiliği gösterir."),
     ("Keşif ücretli mi?",
-     "Hayır. Atakum, İlkadım ve Canik'te keşif ücretsizdir. Evi görüp ölçü aldıktan sonra net fiyatı yazılı olarak iletiyoruz."),
+     "Hayır. Atakum'un tüm mahallelerinde keşif ücretsizdir. Evi görüp ölçü aldıktan sonra net fiyatı yazılı olarak iletiyoruz."),
     ("Hangi boya markalarını kullanıyorsunuz?",
      "Polisan, Filli Boya ve Marshall gibi kendini kanıtlamış markaların iç cephe ürünlerini kullanıyoruz. Bütçenize göre silinebilir, ipek mat veya ekonomik seçenekleri keşifte anlatıyoruz."),
     ("Renk seçiminde yardımcı oluyor musunuz?",
@@ -132,7 +132,7 @@ def block_review():
 
 def block_cta():
     return f'''<section class="section-sm"><div class="wrap"><div class="cta-band reveal">
-  <div><h2>Ücretsiz keşif için arayın</h2><p>Atakum, İlkadım ve Canik'te evinize gelip ölçü alalım, net fiyatı yazılı verelim. {esc(CFG["hours"]["daysText"])} {CFG["hours"]["opens"]}–{CFG["hours"]["closes"]}.</p></div>
+  <div><h2>Ücretsiz keşif için arayın</h2><p>Atakum'da evinize gelip ölçü alalım, net fiyatı yazılı verelim. {esc(CFG["hours"]["daysText"])} {CFG["hours"]["opens"]}–{CFG["hours"]["closes"]}.</p></div>
   <div class="btn-row"><a class="btn btn-light" href="{tel_href()}">{ICONS["phone"]} {esc(CFG["phoneDisplay"])}</a><a class="btn btn-wa" href="{wa_href()}">{ICONS["wa"]} WhatsApp</a></div>
 </div></div></section>'''
 
@@ -174,7 +174,7 @@ def block_contact():
   <ul class="contact-list">
     <li>{ICONS["phone"]}<div><strong>Telefon</strong><a href="{tel_href()}">{esc(CFG["phoneDisplay"])}</a></div></li>
     <li>{ICONS["wa"]}<div><strong>WhatsApp</strong><a href="{wa_href()}">Mesaj gönderin, fotoğraf atın</a></div></li>
-    <li>{ICONS["pin"]}<div><strong>Adres ve hizmet bölgesi</strong>{esc(CFG["streetAddress"])}, {CFG["postalCode"]} {esc(CFG["district"])}/{esc(CFG["city"])}<br>Atakum, İlkadım ve Canik'e hizmet veriyoruz.<br><a href="{esc(CFG["mapsUrl"])}" target="_blank" rel="noopener">Google Haritalar'da aç</a></div></li>
+    <li>{ICONS["pin"]}<div><strong>Adres ve hizmet bölgesi</strong>{esc(CFG["streetAddress"])}, {CFG["postalCode"]} {esc(CFG["district"])}/{esc(CFG["city"])}<br>Atakum'un tüm mahallelerinde hizmet veriyoruz.<br><a href="{esc(CFG["mapsUrl"])}" target="_blank" rel="noopener">Google Haritalar'da aç</a></div></li>
     <li>{ICONS["clock"]}<div><strong>Çalışma saatleri</strong>{esc(h["daysText"])}, {h["opens"]}–{h["closes"]}</div></li>
   </ul>
   <div class="btn-row"><a class="btn btn-primary" href="{tel_href()}">{ICONS["phone"]} Hemen ara</a><a class="btn btn-wa" href="{wa_href()}">{ICONS["wa"]} WhatsApp</a></div>
@@ -210,7 +210,7 @@ def business_schema():
         "geo": {"@type": "GeoCoordinates", "latitude": CFG["geo"]["lat"], "longitude": CFG["geo"]["lng"]},
         "hasMap": CFG["mapsUrl"],
         "sameAs": [CFG["mapsUrl"]],
-        "areaServed": [{"@type": "City", "name": "Samsun"}] + [{"@type": "Place", "name": a + (", Samsun" if a in ("İlkadım", "Canik") else ", Atakum, Samsun")} for a in CFG["areas"]],
+        "areaServed": [{"@type": "AdministrativeArea", "name": "Atakum, Samsun"}] + [{"@type": "Place", "name": a + ", Atakum, Samsun"} for a in CFG["areas"]],
         "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": h["days"], "opens": h["opens"], "closes": h["closes"]}],
         "knowsAbout": ["iç cephe boyama", "eşyalı ev boyama", "daire boyama", "ofis boyama", "alçı ve macun tamiri", "renk danışmanlığı"],
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Boya badana hizmetleri", "itemListElement": [
@@ -229,7 +229,7 @@ def page_schema(meta, url):
             {"@type": "ListItem", "position": 2, "name": meta["crumb"], "item": url}]})
     if meta.get("service"):
         graph.append({"@type": "Service", "name": meta["service"], "serviceType": meta["service"], "url": url,
-                      "provider": {"@id": BASE + "/#isletme"}, "areaServed": {"@type": "City", "name": "Samsun"}})
+                      "provider": {"@id": BASE + "/#isletme"}, "areaServed": {"@type": "AdministrativeArea", "name": "Atakum, Samsun"}})
     if meta.get("faq"):
         graph.append({"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ]})
     return json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, separators=(",", ":"))
@@ -259,7 +259,7 @@ def footer():
     <div><h3>Kurumsal</h3><ul><li><a href="/hakkimizda/">Hakkımızda</a></li><li><a href="/portfolyo/">Uygulamalar</a></li><li><a href="/iletisim/">İletişim</a></li><li><a href="{esc(CFG["reviewUrl"])}" target="_blank" rel="noopener" data-review>Google'da yorum yaz</a></li></ul></div>
     <div><h3>İletişim</h3><ul><li><a href="{tel_href()}">{esc(CFG["phoneDisplay"])}</a></li><li><a href="{wa_href()}">WhatsApp</a></li><li>{esc(CFG["streetAddress"])}<br>{CFG["postalCode"]} {esc(CFG["district"])}/{esc(CFG["city"])}</li><li>{esc(CFG["hours"]["daysText"])}<br>{CFG["hours"]["opens"]}–{CFG["hours"]["closes"]}</li></ul></div>
   </div>
-  <div class="footer-bottom"><span>© {date.today().year} Karaköse Boyacılık · Samsun Atakum boyacı</span><span>Hizmet bölgesi: Atakum, İlkadım, Canik</span></div>
+  <div class="footer-bottom"><span>© {date.today().year} Karaköse Boyacılık · Samsun Atakum boyacı</span><span>Hizmet bölgesi: Atakum / Samsun</span></div>
 </div></footer>
 <nav class="mobile-bar" aria-label="Hızlı iletişim">
   <a class="call" href="{tel_href()}">{ICONS["phone"]}Ara</a>
