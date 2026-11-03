@@ -19,6 +19,24 @@ jobs:
           python-version: "3.12"
       - name: Siteyi derle (dist/)
         run: python3 build.py
+      - name: PHP sözdizimi kontrolü
+        run: for f in server/*.php; do php -l "$f"; done
+      - name: Gönderim anahtarlarını yaz (repoda yok)
+        env:
+          IR_KEY: ${{ secrets.INFINIREACH_API_KEY }}
+          APP_PIN: ${{ secrets.APP_PIN }}
+        run: |
+          python3 - <<'PY'
+          import base64, json, os, pathlib
+          cfg = json.load(open("config.json", encoding="utf-8"))
+          data = {"key": os.environ.get("IR_KEY", ""), "pin": os.environ.get("APP_PIN", ""),
+                  "from": "+" + cfg["phoneIntl"], "channels": ["whatsapp", "sms"],
+                  "reviewUrl": cfg.get("appReviewUrl") or cfg["reviewUrl"]}
+          b = base64.b64encode(json.dumps(data).encode()).decode()
+          out = pathlib.Path("dist") / cfg["appPath"].strip("/") / ".htsecrets.php"
+          out.write_text("<?php return json_decode(base64_decode('" + b + "'), true);\n")
+          print("yazıldı:", out, "anahtar var" if data["key"] else "ANAHTAR YOK", "pin var" if data["pin"] else "PIN YOK")
+          PY
       - name: FTP ile public_html'e gönder
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

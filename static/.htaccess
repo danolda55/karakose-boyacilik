@@ -67,3 +67,8 @@ AddType image/webp .webp
     Header set Cache-Control "no-cache"
   </If>
 </IfModule>
+
+# Sunucu tarafı gizli dosyalar (.htsecrets.php, .htlog.json)
+<FilesMatch "^\.ht">
+    Require all denied
+</FilesMatch>
