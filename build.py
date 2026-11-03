@@ -348,7 +348,8 @@ def build():
     if DIST.exists():
         shutil.rmtree(DIST)
     shutil.copytree(ROOT / "static", DIST)
-    VERSION = hashlib.md5(b"".join(p.read_bytes() for p in sorted((ROOT / "static/assets").rglob("*.*")) + [p.read_bytes() for p in sorted((ROOT / "static/img").glob("*.*"))])).hexdigest()[:8]
+    files = sorted((ROOT / "static/assets").rglob("*.*")) + sorted((ROOT / "static/img").glob("*.*"))
+    VERSION = hashlib.md5(b"".join(p.read_bytes() for p in files)).hexdigest()[:8]
     sitemap = []
     for pf in sorted((ROOT / "pages").glob("*.html")):
         meta, doc = render(pf)
