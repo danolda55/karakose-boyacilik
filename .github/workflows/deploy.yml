@@ -1,25 +1,36 @@
-name: cPanel'e yükle
+name: Siteyi derle ve cPanel'e yükle
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Siteyi derle (dist/)
+        run: python3 build.py
       - name: FTP ile public_html'e gönder
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
           server-dir: ${{ vars.FTP_SERVER_DIR || './' }}
-          exclude: |
-            **/.git*
-            **/.git*/**
-            .github/**
-            README.md
-            content.md
+          timeout: 60000
+      - name: Canlı siteyi kontrol et
+        run: |
+          for p in / /hizmetlerimiz/ /esyali-ev-boyama/ /isicilik-hesapla/; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "https://xn--karakseboyaclk-zpb56gba.com.tr$p")
+            echo "$p -> $code"; [ "$code" = "200" ] || exit 1
+          done

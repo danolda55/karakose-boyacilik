@@ -1,0 +1,40 @@
+<!--{
+  "file": "yorum-iste.html",
+  "path": "/yorum-iste/",
+  "crumb": "Yorum İste",
+  "title": "Yorum İste – Birol Usta",
+  "description": "Müşteriye Google yorum mesajı gönderme aracı.",
+  "robots": "noindex, nofollow",
+  "sitemap": false,
+  "noSchema": true,
+  "noGtm": true,
+  "bare": true,
+  "scripts": ["/assets/js/yorum.js"]
+}-->
+<section class="section-sm">
+  <div class="wrap tool">
+    <div class="logo" style="margin-bottom:24px"><span class="logo-mark">K</span><span class="logo-text"><strong>Yorum İste</strong><span>İş bitince müşteriye gönder</span></span></div>
+    <div class="calc">
+      <label class="field-label" for="musteri-tel">Müşterinin telefonu</label>
+      <input id="musteri-tel" type="tel" inputmode="tel" autocomplete="off" placeholder="0532 123 45 67">
+      <label class="field-label" for="musteri-ad">Hitap (isteğe bağlı)</label>
+      <input id="musteri-ad" type="text" autocomplete="off" placeholder="Örn: Ayşe Hanım">
+      <p id="tel-hata" class="calc-error" role="alert" style="margin:0 0 12px"></p>
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:10px">
+        <button id="gonder-wa" class="btn btn-wa" type="button">{{icon:wa}} WhatsApp</button>
+        <button id="gonder-sms" class="btn btn-primary" type="button">SMS</button>
+      </div>
+      <p class="small" style="margin:14px 0 0">Düğmeye basınca mesaj hazır açılır, sadece <strong>Gönder</strong>'e basın.</p>
+    </div>
+
+    <details style="margin-top:22px">
+      <summary class="small" style="cursor:pointer">Gidecek mesajı gör / düzenle</summary>
+      <textarea id="mesaj" aria-label="Gönderilecek mesaj" style="margin-top:10px"></textarea>
+    </details>
+
+    <h2 style="font-size:1.3rem;margin-top:36px">Son gönderilenler</h2>
+    <ul id="gecmis" class="history"></ul>
+    <p style="margin-top:14px"><button id="gecmis-sil" class="btn btn-ghost" type="button" style="padding:.6em 1.1em;font-size:.85rem">Geçmişi temizle</button></p>
+    <p class="small">İpucu: Bu sayfayı telefonda açıp paylaş menüsünden <strong>Ana Ekrana Ekle</strong>'ye basın; uygulama gibi açılır. Geçmiş sadece bu telefonda tutulur.</p>
+  </div>
+</section>
