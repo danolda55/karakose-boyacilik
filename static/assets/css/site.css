@@ -293,3 +293,5 @@ a.card { text-decoration: none; color: inherit; }
 .history { list-style: none; padding: 0; margin: 0; font-size: .92rem; }
 .history li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); }
 .small { font-size: .88rem; color: var(--muted); }
+
+.hero-media img { object-position: 72% center; }
