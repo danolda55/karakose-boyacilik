@@ -1,0 +1,20 @@
+DirectoryIndex index.html
+RewriteEngine On
+
+# Eğer istenen URL bir dosya değilse
+RewriteCond %{REQUEST_FILENAME} !-f
+# Eğer istenen URL bir klasör değilse
+RewriteCond %{REQUEST_FILENAME} !-d
+# Ve sonunda .html olan bir dosya mevcutsa
+RewriteCond %{REQUEST_FILENAME}.html -f
+# İsteği .html uzantılı dosyaya yönlendir (sondaki / olsun veya olmasın)
+RewriteRule ^([^/]+)/?$ $1.html [L,QSA]
+
+# Eğer sonunda / olmayan bir istek gelirse ve .html dosyası varsa,
+# sonuna / ekleyerek yönlendir (SEO için tekil URL) - İsteğe bağlı ama önerilir
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !\..+$ 
+RewriteCond %{REQUEST_URI} !/$ 
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ /$1/ [R=301,L]
