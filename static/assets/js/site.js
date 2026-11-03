@@ -99,7 +99,7 @@
 
       out.hidden = false;
       out.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      track("calculator_submit", { area: area, status: status, color: color, low: low, high: high });
+      track("calculator_submit", { calculator_area: area, calculator_property_status: status, calculator_color_type: color, calculator_estimated_cost: low + "-" + high });
     });
   }
 })();
