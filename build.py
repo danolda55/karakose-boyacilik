@@ -58,7 +58,7 @@ SERVICES = [
      "text": "Ofis, klinik, mağaza ve apartman merdiven boşlukları. İşinizi en az aksatacak şekilde planlıyoruz.",
      "alt": "Atakum'da gri ve yeşil boyanmış ofis, yeşil vurgu duvarı"},
     {"url": "/hizmetlerimiz/#renk-danismanligi", "img": "renk", "title": "Renk Danışmanlığı",
-     "text": "Ölçüye geldiğimizde karteladan evinizin ışığına ve mobilyanıza uyan tonları birlikte seçiyoruz.",
+     "text": "İş tespitine geldiğimizde karteladan evinizin ışığına ve mobilyanıza uyan tonları birlikte seçiyoruz.",
      "alt": "Renk kartelası ile duvar rengi seçimi"},
 ]
 
@@ -68,15 +68,15 @@ FAQ = [
     ("Eşyalı evimi boyatmak istiyorum, eşyalarım kirlenir mi?",
      "Hayır. Başlamadan önce mobilyaları odanın ortasında toplayıp koruyucu naylonla sarıyor, zemini örtüyor, priz ve süpürgelikleri maskeleme bandıyla kapatıyoruz. İş bitince evi temizleyip eşyaları yerine koyarak teslim ediyoruz."),
     ("Boya badana işi kaç gün sürer?",
-     "Ortalama 3+1 bir daire boşsa 1–2 gün, eşyalıysa koruma ve toparlama zaman aldığı için 2–3 gün sürer. Kesin süreyi ölçüye geldiğimizde söylüyoruz ve sözleştiğimiz gün bitiriyoruz."),
+     "Ortalama 3+1 bir daire boşsa 1–2 gün, eşyalıysa koruma ve toparlama zaman aldığı için 2–3 gün sürer. Kesin süreyi iş tespitine geldiğimizde söylüyoruz ve sözleştiğimiz gün bitiriyoruz."),
     ("Fiyatlara boya malzemesi dahil mi?",
      "Tercihinize göre. Çoğunlukla malzeme dahil, anahtar teslim fiyat veriyoruz. Dilerseniz boyayı siz alırsınız, biz yalnızca işçilik ücreti alırız. Sitedeki hesaplama aracı yalnızca işçiliği gösterir."),
-    ("Ölçüye gelmeniz ücretli mi?",
-     "Hayır. Atakum'un tüm mahallelerinde ölçüye gelmemiz ücretsizdir. Evi görüp ölçü aldıktan sonra net fiyatı yazılı olarak iletiyoruz."),
+    ("İş tespiti ücretli mi?",
+     "Hayır. Atakum'un tüm mahallelerinde iş tespiti ücretsizdir. Evi görüp ölçü aldıktan sonra net fiyatı yazılı olarak iletiyoruz."),
     ("Hangi boya markalarını kullanıyorsunuz?",
-     "Polisan, Filli Boya ve Marshall gibi kendini kanıtlamış markaların iç cephe ürünlerini kullanıyoruz. Bütçenize göre silinebilir, ipek mat veya ekonomik seçenekleri ölçüye geldiğimizde anlatıyoruz."),
+     "Polisan, Filli Boya ve Marshall gibi kendini kanıtlamış markaların iç cephe ürünlerini kullanıyoruz. Bütçenize göre silinebilir, ipek mat veya ekonomik seçenekleri iş tespitine geldiğimizde anlatıyoruz."),
     ("Renk seçiminde yardımcı oluyor musunuz?",
-     "Evet. Ölçüye geldiğimizde yanımızda getirdiğimiz kartelalarla, evinizin ışık alma durumuna ve mobilyalarınıza uyan tonları (kum beji, lületaşı, gri ve yeşil tonları gibi) birlikte seçiyoruz."),
+     "Evet. İş tespitine geldiğimizde yanımızda getirdiğimiz kartelalarla, evinizin ışık alma durumuna ve mobilyalarınıza uyan tonları (kum beji, lületaşı, gri ve yeşil tonları gibi) birlikte seçiyoruz."),
 ]
 
 
@@ -132,7 +132,7 @@ def block_review():
 
 def block_cta():
     return f'''<section class="section-sm"><div class="wrap"><div class="cta-band reveal">
-  <div><h2>Ücretsiz ölçü için arayın</h2><p>Atakum'da evinize gelip ölçü alalım, net fiyatı yazılı verelim. {esc(CFG["hours"]["daysText"])} {CFG["hours"]["opens"]}–{CFG["hours"]["closes"]}.</p></div>
+  <div><h2>Ücretsiz iş tespiti için arayın</h2><p>Atakum'da evinize gelip ölçü alalım, net fiyatı yazılı verelim. {esc(CFG["hours"]["daysText"])} {CFG["hours"]["opens"]}–{CFG["hours"]["closes"]}.</p></div>
   <div class="btn-row"><a class="btn btn-light" href="{tel_href()}">{ICONS["phone"]} {esc(CFG["phoneDisplay"])}</a><a class="btn btn-wa" href="{wa_href()}">{ICONS["wa"]} WhatsApp</a></div>
 </div></div></section>'''
 

@@ -94,7 +94,7 @@
       var statusText = status === "furnished" ? "eşyalı" : "boş";
       var colorText = { light_to_light: "açıktan açığa", light_to_dark: "açıktan koyuya", dark_to_light: "koyudan açığa", dark_to_dark: "koyudan koyuya" }[color];
       var msg = "Merhaba Birol Usta, siteden hesapladım: " + area + " m² " + statusText + " ev, renk " + colorText +
-        ". Tahmini işçilik " + fmt(low) + " – " + fmt(high) + " çıktı. Ölçüye gelmeniz için uygun olduğunuz bir gün var mı?";
+        ". Tahmini işçilik " + fmt(low) + " – " + fmt(high) + " çıktı. İş tespiti için uygun olduğunuz bir gün var mı?";
       waEl.href = "https://wa.me/" + cfg.phoneIntl + "?text=" + encodeURIComponent(msg);
 
       out.hidden = false;
