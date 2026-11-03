@@ -93,8 +93,8 @@ def wa_href(text="Merhaba Birol Usta, boya badana için fiyat almak istiyorum.")
     return "https://wa.me/" + CFG["phoneIntl"] + "?text=" + quote(text)
 
 
-def img(name, alt, sizes="(max-width: 760px) 100vw, 50vw", eager=False, cls=""):
-    attrs = 'fetchpriority="high"' if eager else 'loading="lazy" decoding="async"'
+def img(name, alt, sizes="(max-width: 760px) 100vw, 50vw", eager=False, cls="", lazy=True):
+    attrs = 'fetchpriority="high"' if eager else ('loading="lazy" decoding="async"' if lazy else 'decoding="async"')
     c = f' class="{cls}"' if cls else ""
     return (f'<img{c} src="/img/{name}.webp" srcset="/img/{name}-800.webp 800w, /img/{name}.webp 1600w" '
             f'sizes="{sizes}" width="1600" height="893" alt="{esc(alt)}" {attrs}>')
@@ -105,7 +105,7 @@ def block_services():
     cards = []
     for s in SERVICES:
         cards.append(f'''<a class="card reveal" href="{s["url"]}">
-  <div class="card-media">{img(s["img"] + "", s["alt"], "(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 25vw")}</div>
+  <div class="card-media">{img(s["img"] + "", s["alt"], "(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 25vw", lazy=False)}</div>
   <div class="card-body"><h3>{esc(s["title"])}</h3><p>{esc(s["text"])}</p><span class="card-link">Detaylar</span></div>
 </a>''')
     return '<div class="grid grid-4">' + "\n".join(cards) + "</div>"

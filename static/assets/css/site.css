@@ -78,6 +78,8 @@ ul { padding-left: 1.2em; }
 .nav { display: flex; align-items: center; gap: 4px; }
 .nav a { padding: .5em .85em; border-radius: 999px; text-decoration: none; color: var(--ink); font-size: .95rem; font-weight: 500; }
 .nav a:hover, .nav a[aria-current="page"] { background: var(--sand); }
+.nav a.btn-primary { color: var(--white); background: var(--brand); }
+.nav a.btn-primary:hover { color: var(--white); background: var(--brand-dark); }
 .nav .btn { margin-left: 8px; padding: .7em 1.2em; font-size: .92rem; }
 .menu-btn { display: none; background: none; border: 0; width: 44px; height: 44px; border-radius: 12px; cursor: pointer; color: var(--ink); }
 .menu-btn svg { width: 26px; height: 26px; }
@@ -187,14 +189,13 @@ a.card { text-decoration: none; color: inherit; }
 .prose strong { color: var(--ink); }
 
 /* Galeri */
-.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.gallery { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 250px; gap: 16px; }
 .gallery figure { margin: 0; position: relative; border-radius: var(--radius-sm); overflow: hidden; background: var(--sand); }
-.gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .6s; }
+.gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
 .gallery figure:hover img { transform: scale(1.04); }
 .gallery figcaption { position: absolute; left: 12px; bottom: 12px; background: rgba(255,255,255,.92); color: var(--ink); padding: 6px 12px; border-radius: 999px; font-size: .82rem; font-weight: 500; }
-.gallery .wide { grid-column: span 2; }
-.gallery .wide img { aspect-ratio: auto; height: 100%; }
-@media (max-width: 760px) { .gallery { grid-template-columns: 1fr 1fr; } .gallery .wide { grid-column: span 2; } }
+.gallery .wide { grid-column: span 2; grid-row: span 2; }
+@media (max-width: 760px) { .gallery { grid-template-columns: 1fr 1fr; grid-auto-rows: 170px; } .gallery .wide { grid-column: span 2; grid-row: span 2; } }
 
 /* Bölge etiketleri */
 .chips { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; margin: 0; }
@@ -288,7 +289,7 @@ a.card { text-decoration: none; color: inherit; }
 .tool .calc { padding: 28px; }
 .tool input[type="tel"], .tool input[type="text"] { width: 100%; padding: 16px; font-size: 1.2rem; border-radius: var(--radius-sm); border: 1.5px solid var(--line); background: var(--cream); font-family: var(--sans); color: var(--ink); margin-bottom: 14px; }
 .tool input:focus { outline: none; border-color: var(--brand); background: var(--white); }
-.tool textarea { width: 100%; min-height: 150px; padding: 14px; border-radius: var(--radius-sm); border: 1.5px solid var(--line); font: inherit; font-size: .95rem; background: var(--cream); color: var(--ink); }
+.tool textarea { width: 100%; min-height: 240px; resize: vertical; padding: 14px; border-radius: var(--radius-sm); border: 1.5px solid var(--line); font: inherit; font-size: .95rem; background: var(--cream); color: var(--ink); }
 .history { list-style: none; padding: 0; margin: 0; font-size: .92rem; }
 .history li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); }
 .small { font-size: .88rem; color: var(--muted); }
