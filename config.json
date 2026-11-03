@@ -8,18 +8,58 @@
   "gtmId": "GTM-NQGPGWCN",
   "city": "Samsun",
   "district": "Atakum",
-  "postalCode": "55200",
-  "geo": { "lat": 41.3352138, "lng": 36.2597049 },
+  "postalCode": "55100",
+  "geo": {
+    "lat": 41.3352138,
+    "lng": 36.2597049
+  },
   "foundingYear": 2019,
-  "hours": { "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "daysText": "Pazartesi – Cumartesi", "opens": "08:00", "closes": "19:00" },
+  "hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "daysText": "Pazartesi – Cumartesi",
+    "opens": "08:00",
+    "closes": "19:00"
+  },
   "mapsUrl": "https://maps.google.com/?cid=10521270566665226517",
   "mapsEmbed": "https://maps.google.com/maps?q=Karak%C3%B6se%20boyac%C4%B1l%C4%B1k%2C%20Atakum%2C%20Samsun&ll=41.3352138,36.2597049&z=14&output=embed",
   "reviewUrl": "https://maps.google.com/?cid=10521270566665226517",
   "reviewMessage": "{selam} ben Birol Usta, Karaköse Boyacılık. Evinizde çalışma fırsatı verdiğiniz için çok teşekkür ederim. Memnun kaldıysanız Google'da birkaç kelimelik bir yorum bırakmanız bize çok yardımcı olur:\n{link}\nGüle güle oturun, iyi günler dilerim.",
-  "areas": ["Atakent", "Cumhuriyet", "Mimarsinan", "Yenimahalle", "Esenevler", "Denizevleri", "Körfez", "Alanlı", "Kurupelit", "Çobanlı", "Cağaloğlu", "Taflan", "Balaç", "İlkadım", "Canik"],
+  "areas": [
+    "Atakent",
+    "Cumhuriyet",
+    "Mimarsinan",
+    "Yenimahalle",
+    "Esenevler",
+    "Denizevleri",
+    "Körfez",
+    "Alanlı",
+    "Kurupelit",
+    "Çobanlı",
+    "Cağaloğlu",
+    "Taflan",
+    "Balaç",
+    "İlkadım",
+    "Canik"
+  ],
   "prices": {
-    "rates": { "unfurnished": 75, "furnished": 90 },
-    "colorMultipliers": { "light_to_light": 1.0, "dark_to_dark": 1.0, "light_to_dark": 1.1, "dark_to_light": 1.35 },
+    "rates": {
+      "unfurnished": 75,
+      "furnished": 90
+    },
+    "colorMultipliers": {
+      "light_to_light": 1.0,
+      "dark_to_dark": 1.0,
+      "light_to_dark": 1.1,
+      "dark_to_light": 1.35
+    },
     "spread": 0.1
-  }
+  },
+  "streetAddress": "Cumhuriyet Mah., Azerbeycan Cd. No: 57"
 }

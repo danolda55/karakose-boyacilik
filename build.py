@@ -174,7 +174,7 @@ def block_contact():
   <ul class="contact-list">
     <li>{ICONS["phone"]}<div><strong>Telefon</strong><a href="{tel_href()}">{esc(CFG["phoneDisplay"])}</a></div></li>
     <li>{ICONS["wa"]}<div><strong>WhatsApp</strong><a href="{wa_href()}">Mesaj gönderin, fotoğraf atın</a></div></li>
-    <li>{ICONS["pin"]}<div><strong>Hizmet bölgesi</strong>{esc(CFG["district"])}, İlkadım ve Canik / {esc(CFG["city"])}<br><a href="{esc(CFG["mapsUrl"])}" target="_blank" rel="noopener">Google Haritalar'da aç</a></div></li>
+    <li>{ICONS["pin"]}<div><strong>Adres ve hizmet bölgesi</strong>{esc(CFG["streetAddress"])}, {CFG["postalCode"]} {esc(CFG["district"])}/{esc(CFG["city"])}<br>Atakum, İlkadım ve Canik'e hizmet veriyoruz.<br><a href="{esc(CFG["mapsUrl"])}" target="_blank" rel="noopener">Google Haritalar'da aç</a></div></li>
     <li>{ICONS["clock"]}<div><strong>Çalışma saatleri</strong>{esc(h["daysText"])}, {h["opens"]}–{h["closes"]}</div></li>
   </ul>
   <div class="btn-row"><a class="btn btn-primary" href="{tel_href()}">{ICONS["phone"]} Hemen ara</a><a class="btn btn-wa" href="{wa_href()}">{ICONS["wa"]} WhatsApp</a></div>
@@ -205,7 +205,7 @@ def business_schema():
         "paymentAccepted": "Nakit, Havale/EFT",
         "foundingDate": str(CFG["foundingYear"]),
         "founder": {"@type": "Person", "name": CFG["owner"]},
-        "address": {"@type": "PostalAddress", "addressLocality": CFG["district"], "addressRegion": CFG["city"],
+        "address": {"@type": "PostalAddress", "streetAddress": CFG["streetAddress"], "addressLocality": CFG["district"], "addressRegion": CFG["city"],
                     "postalCode": CFG["postalCode"], "addressCountry": "TR"},
         "geo": {"@type": "GeoCoordinates", "latitude": CFG["geo"]["lat"], "longitude": CFG["geo"]["lng"]},
         "hasMap": CFG["mapsUrl"],
@@ -257,7 +257,7 @@ def footer():
       <p style="margin-top:18px;max-width:320px">{CFG["foundingYear"]}'dan beri Samsun Atakum'da temiz, titiz ve sözünde iç cephe boya badana.</p></div>
     <div><h3>Hizmetler</h3><ul>{svc}<li><a href="/isicilik-hesapla/">Fiyat hesapla</a></li></ul></div>
     <div><h3>Kurumsal</h3><ul><li><a href="/hakkimizda/">Hakkımızda</a></li><li><a href="/portfolyo/">Uygulamalar</a></li><li><a href="/iletisim/">İletişim</a></li><li><a href="{esc(CFG["reviewUrl"])}" target="_blank" rel="noopener" data-review>Google'da yorum yaz</a></li></ul></div>
-    <div><h3>İletişim</h3><ul><li><a href="{tel_href()}">{esc(CFG["phoneDisplay"])}</a></li><li><a href="{wa_href()}">WhatsApp</a></li><li>{esc(CFG["district"])} / {esc(CFG["city"])}</li><li>{esc(CFG["hours"]["daysText"])}<br>{CFG["hours"]["opens"]}–{CFG["hours"]["closes"]}</li></ul></div>
+    <div><h3>İletişim</h3><ul><li><a href="{tel_href()}">{esc(CFG["phoneDisplay"])}</a></li><li><a href="{wa_href()}">WhatsApp</a></li><li>{esc(CFG["streetAddress"])}<br>{CFG["postalCode"]} {esc(CFG["district"])}/{esc(CFG["city"])}</li><li>{esc(CFG["hours"]["daysText"])}<br>{CFG["hours"]["opens"]}–{CFG["hours"]["closes"]}</li></ul></div>
   </div>
   <div class="footer-bottom"><span>© {date.today().year} Karaköse Boyacılık · Samsun Atakum boyacı</span><span>Hizmet bölgesi: Atakum, İlkadım, Canik</span></div>
 </div></footer>
