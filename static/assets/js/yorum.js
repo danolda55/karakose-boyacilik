@@ -8,8 +8,12 @@
   var nameIn = document.getElementById("musteri-ad");
   var preview = document.getElementById("mesaj");
   var err = document.getElementById("tel-hata");
-  var waBtn = document.getElementById("gonder-wa");
-  var smsBtn = document.getElementById("gonder-sms");
+  var sendBtn = document.getElementById("gonder");
+  var smsBox = document.getElementById("sms-adim");
+  var smsWho = document.getElementById("sms-kime");
+  var smsOpen = document.getElementById("sms-ac");
+  var smsSkip = document.getElementById("sms-atla");
+  var PEND = "kb-yorum-sms-bekleyen";
   var list = document.getElementById("gecmis");
   var clearBtn = document.getElementById("gecmis-sil");
 
@@ -53,7 +57,28 @@
 
   function refresh() { preview.value = buildMessage(); }
 
-  function send(via) {
+  function waUrl(phone, text) { return "https://wa.me/" + phone + "?text=" + encodeURIComponent(text); }
+  function smsUrl(phone, text) {
+    return "sms:+" + phone + (/iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent) ? "&" : "?") + "body=" + encodeURIComponent(text);
+  }
+  function pending() { try { return JSON.parse(sessionStorage.getItem(PEND)); } catch (e) { return null; } }
+  function setPending(p) { try { p ? sessionStorage.setItem(PEND, JSON.stringify(p)) : sessionStorage.removeItem(PEND); } catch (e) {} }
+
+  function showSmsStep() {
+    var p = pending();
+    if (!p) { smsBox.hidden = true; return; }
+    smsWho.textContent = pretty(p.phone);
+    smsBox.hidden = false;
+  }
+  function openSms() {
+    var p = pending();
+    if (!p) return;
+    setPending(null);
+    smsBox.hidden = true;
+    window.location.href = smsUrl(p.phone, p.text);
+  }
+
+  function send() {
     var phone = normalize(phoneIn.value);
     err.textContent = "";
     if (!phone) {
@@ -65,24 +90,36 @@
     if (already && !confirm("Bu numaraya " + new Date(already.at).toLocaleDateString("tr-TR") + " tarihinde zaten mesaj gönderilmiş. Yine de gönderilsin mi?")) return;
 
     var text = preview.value || buildMessage();
-    var url = via === "WhatsApp"
-      ? "https://wa.me/" + phone + "?text=" + encodeURIComponent(text)
-      : "sms:+" + phone + (/iPhone|iPad|iPod/i.test(navigator.userAgent) ? "&" : "?") + "body=" + encodeURIComponent(text);
-
     var arr = load();
-    arr.unshift({ phone: phone, name: (nameIn.value || "").trim(), via: via, at: Date.now() });
+    arr.unshift({ phone: phone, name: (nameIn.value || "").trim(), via: "WhatsApp + SMS", at: Date.now() });
     save(arr);
     render();
     phoneIn.value = ""; nameIn.value = ""; refresh();
-    window.location.href = url;
+    setPending({ phone: phone, text: text, at: Date.now() });
+    showSmsStep();
+    window.location.href = waUrl(phone, text);
   }
 
+  /* WhatsApp'tan geri dönünce SMS'i kendiliğinden aç; telefon izin vermezse "SMS'i aç" düğmesi görünür kalır */
+  function onReturn() {
+    if (document.visibilityState !== "visible") return;
+    var p = pending();
+    if (!p) return;
+    showSmsStep();
+    if (Date.now() - p.at > 1500) setTimeout(openSms, 400);
+  }
+  document.addEventListener("visibilitychange", onReturn);
+  window.addEventListener("pageshow", onReturn);
+  window.addEventListener("focus", onReturn);
+  smsOpen.addEventListener("click", openSms);
+  smsSkip.addEventListener("click", function () { setPending(null); showSmsStep(); });
+
   nameIn.addEventListener("input", refresh);
-  waBtn.addEventListener("click", function () { send("WhatsApp"); });
-  smsBtn.addEventListener("click", function () { send("SMS"); });
+  sendBtn.addEventListener("click", send);
   clearBtn.addEventListener("click", function () {
     if (confirm("Gönderim geçmişi bu telefondan silinsin mi?")) { save([]); render(); }
   });
   refresh();
   render();
+  showSmsStep();
 })();

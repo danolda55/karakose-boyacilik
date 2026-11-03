@@ -21,11 +21,13 @@
       <label class="field-label" for="musteri-ad">Hitap (isteğe bağlı)</label>
       <input id="musteri-ad" type="text" autocomplete="off" placeholder="Örn: Ayşe Hanım">
       <p id="tel-hata" class="calc-error" role="alert" style="margin:0 0 12px"></p>
-      <div class="grid" style="grid-template-columns:1fr 1fr;gap:10px">
-        <button id="gonder-wa" class="btn btn-wa" type="button">{{icon:wa}} WhatsApp</button>
-        <button id="gonder-sms" class="btn btn-primary" type="button">SMS</button>
+      <button id="gonder" class="btn btn-primary" type="button" style="width:100%;font-size:1.1rem;padding:1em">Gönder (WhatsApp + SMS)</button>
+      <p class="small" style="margin:14px 0 0">Önce WhatsApp açılır, <strong>Gönder</strong>'e basın. Uygulamaya dönünce SMS kendiliğinden açılır, orada da <strong>Gönder</strong>'e basın.</p>
+      <div id="sms-adim" hidden style="margin-top:16px;padding:16px;border-radius:14px;background:#e9f2ef">
+        <p style="margin:0 0 10px"><strong>2. adım:</strong> <span id="sms-kime"></span> numarasına SMS</p>
+        <button id="sms-ac" class="btn btn-wa" type="button" style="width:100%">SMS'i aç</button>
+        <p class="small" style="margin:10px 0 0"><button id="sms-atla" type="button" style="background:none;border:0;color:inherit;text-decoration:underline;padding:0;cursor:pointer">SMS gönderme, atla</button></p>
       </div>
-      <p class="small" style="margin:14px 0 0">Düğmeye basınca mesaj hazır açılır, sadece <strong>Gönder</strong>'e basın.</p>
     </div>
 
     <details style="margin-top:22px">
